@@ -37,8 +37,8 @@
         android:id="@+id/btnDisplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hiển thị"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:text="Hiển thị" />
 
     <TextView
         android:id="@+id/tvResult"

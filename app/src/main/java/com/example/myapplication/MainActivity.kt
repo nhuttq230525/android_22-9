@@ -3,7 +3,10 @@ package com.example.myapplication
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityMainBinding
-
+import com.example.myapplication.utils.gone
+import com.example.myapplication.utils.show
+import com.example.myapplication.utils.toast
+import com.example.myapplication.utils.textValue
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -11,36 +14,30 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // apply: cấu hình ViewBinding
-        binding = ActivityMainBinding.inflate(layoutInflater).apply {
-            setContentView(root)
-        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // also: thực hiện thêm thao tác với binding
-        binding.also {
-            it.tvTitle.text = "Bài tập 2 - Android Scope"
-        }
+        binding.tvResult.gone()
 
-        // with: làm việc với nhiều View trong binding
-        with(binding) {
+        binding.btnDisplay.setOnClickListener {
 
-            btnDisplay.setOnClickListener {
+            val name = binding.edtName.textValue()
+            val mssv = binding.edtMssv.textValue()
 
-                // let: lấy dữ liệu từ EditText và xử lý
-                val name = edtName.text.toString().trim().let {
-                    if (it.isEmpty()) "Chưa nhập tên" else it
-                }
+            if (name.isEmpty() || mssv.isEmpty()) {
 
-                val mssv = edtMssv.text.toString().trim().let {
-                    if (it.isEmpty()) "Chưa nhập MSSV" else it
-                }
+                toast("Vui lòng nhập đầy đủ thông tin")
 
-                // run: tạo kết quả từ dữ liệu
-                val result = run {
+                binding.tvResult.gone()
+
+            } else {
+
+                binding.tvResult.text =
                     "Họ tên: $name\nMSSV: $mssv"
-                }
 
-                tvResult.text = result
+                binding.tvResult.show()
+
+                toast("Hiển thị thông tin thành công")
             }
         }
     }
