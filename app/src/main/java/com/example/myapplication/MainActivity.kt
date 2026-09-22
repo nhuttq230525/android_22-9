@@ -11,17 +11,37 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        // apply: cấu hình ViewBinding
+        binding = ActivityMainBinding.inflate(layoutInflater).apply {
+            setContentView(root)
+        }
 
-        setContentView(binding.root)
+        // also: thực hiện thêm thao tác với binding
+        binding.also {
+            it.tvTitle.text = "Bài tập 2 - Android Scope"
+        }
 
-        binding.btnDisplay.setOnClickListener {
+        // with: làm việc với nhiều View trong binding
+        with(binding) {
 
-            val name = binding.edtName.text.toString()
-            val mssv = binding.edtMssv.text.toString()
+            btnDisplay.setOnClickListener {
 
-            binding.tvResult.text =
-                "Họ tên: $name\nMSSV: $mssv"
+                // let: lấy dữ liệu từ EditText và xử lý
+                val name = edtName.text.toString().trim().let {
+                    if (it.isEmpty()) "Chưa nhập tên" else it
+                }
+
+                val mssv = edtMssv.text.toString().trim().let {
+                    if (it.isEmpty()) "Chưa nhập MSSV" else it
+                }
+
+                // run: tạo kết quả từ dữ liệu
+                val result = run {
+                    "Họ tên: $name\nMSSV: $mssv"
+                }
+
+                tvResult.text = result
+            }
         }
     }
 }
